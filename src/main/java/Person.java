@@ -24,7 +24,7 @@ public class Person {
     /**
      * Constructor for the class Person
      *
-     * @param name - String representing the name of the person
+     * @param name String representing the name of the person
      */
     public Person(String name){
         if(name == null) throw new IllegalArgumentException("Argument given to Person class constructor is invalid");
@@ -37,20 +37,20 @@ public class Person {
     /**
      * Adds a Person object to a children list of object upon it was called upon
      *
-     * @param child - Person object representing child
-     * @throws PersonException - if the relationship is cyclic or the given argument is null
+     * @param child Person object representing child
+     * @throws PersonException If the relationship is cyclic or the given argument is null
      */
     public void addChild(Person child) throws PersonException {
         if (child == null) {
             throw new PersonException("Given argument, where instance of Person class was expected, is null!");
         }
 
-        if (isMyAncestor(child)) {
-            throw new PersonException("Cyclic relationships are not valid!");
+        if(this.equals(child)) {
+            throw new PersonException("Person you're trying to add as a child is the person itself!");
         }
 
-        if(this.equals(child)) {
-            throw new PersonException("Person you're trying to add as a child is the parent itself!");
+        if (isMyAncestor(child)) {
+            throw new PersonException("Cyclic relationships are not valid!");
         }
 
         if(isMyDescendant(child)) {
@@ -63,17 +63,25 @@ public class Person {
     /**
      * Adds a Person object to a parents list of object upon which it was called upon
      *
-     * @param parent - Person object representing an objects parent
-     * @throws PersonException - if the relationship is cyclic, the object upon which it was called upon already has two parents
-     *                         or the given argument is null
+     * @param parent Person object representing an objects parent
+     * @throws PersonException If the relationship is cyclic, the object upon which it was called upon already has two
+     *                          parents or the given argument is null
      */
     public void addParent(Person parent) throws PersonException {
         if (parent == null) {
             throw new PersonException("Given argument, where instance of Person class was expected, is null!");
         }
 
+        if(this.equals(parent)) {
+            throw new PersonException("The person you're trying to add as a parent is the person itself!");
+        }
+
         if (isMyDescendant(parent)) {
             throw new PersonException("Cyclic relationships are not valid!");
+        }
+
+        if (isMyAncestor(parent)) {
+            throw new PersonException("Person you're trying to add as a child is already an ancestor!");
         }
 
         if (parents.size() >= 2) {
@@ -86,10 +94,10 @@ public class Person {
     /**
      * Method which recursively iterates through all persons ancestors, checking whether given object is one
      *
-     * @param person - potentialancestor
+     * @param person Potential ancestor
      * @return True if given argument is objects ancestor or the object itself, false otherwise
      */
-    public boolean isMyAncestor(Person person) {
+    private boolean isMyAncestor(Person person) {
         if (this.equals(person)) return true;
 
         for (Person parent : parents) {
@@ -102,14 +110,14 @@ public class Person {
     /**
      * Method which recursively iterates through all persons descendants, checking whether given Person object is one
      *
-     * @param person - Potential descendant
+     * @param person Potential descendant
      * @return True if given argument is objects descendant or object itself, false otherwise
      */
-    public boolean isMyDescendant(Person person) {
+    private boolean isMyDescendant(Person person) {
         if (this.equals(person)) return true;
 
         for (Person child : children) {
-            if (child.isMyAncestor(person)) return true;
+            if (child.isMyDescendant(person)) return true;
         }
 
         return false;
@@ -121,9 +129,7 @@ public class Person {
      * @return False if persons parents list size is different than 0, true otherwise
      */
     public boolean hasParents() {
-        if (this.parents.size() == 0) return false;
-
-        return true;
+        return this.parents.size() != 0;
     }
 
     /**

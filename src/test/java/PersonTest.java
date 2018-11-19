@@ -84,8 +84,80 @@ public class PersonTest {
     }
 
     @Test
-    public void addExistingDescendantAgain() throws PersonException {
+    public void addParentCyclicRelationshipTest1() throws PersonException {
+        exception.expect(PersonException.class);
+        grandparent1.addParent(child);
+    }
+
+    @Test
+    public void addParentCyclicRelationshipTest2() throws PersonException {
+        exception.expect(PersonException.class);
+        grandparent2.addParent(child);
+    }
+
+    @Test
+    public void addParentCyclicRelationshipTest3() throws PersonException {
+        exception.expect(PersonException.class);
+        grandparent3.addParent(child);
+    }
+
+    @Test
+    public void addParentCyclicRelationshipTest4() throws PersonException {
+        exception.expect(PersonException.class);
+        grandparent4.addParent(child);
+    }
+
+    @Test
+    public void addParentCyclicRelationshipTest5() throws PersonException {
+        exception.expect(PersonException.class);
+        parent1.addParent(child);
+    }
+
+    @Test
+    public void addParentCyclicRelationshipTest6() throws PersonException {
+        exception.expect(PersonException.class);
+        parent2.addParent(child);
+    }
+
+    @Test
+    public void addExistingDescendantTest() throws PersonException {
         exception.expect(PersonException.class);
         grandparent1.addChild(child);
+    }
+
+    @Test
+    public void addExistingAncestorTest() throws PersonException {
+        exception.expect(PersonException.class);
+        child.addParent(parent1);
+    }
+
+    @Test
+    public void addChildNullTest() throws PersonException {
+        exception.expect(PersonException.class);
+        child.addChild(null);
+    }
+
+    @Test
+    public void addParentNullTest() throws PersonException {
+        exception.expect(PersonException.class);
+        child.addParent(null);
+    }
+
+    @Test
+    public void addThirdParentTest() throws PersonException {
+        exception.expect(PersonException.class);
+        parent1.addParent(new Person("TestName"));
+    }
+
+    @Test
+    public void addChildSelfTest() throws PersonException {
+        exception.expect(PersonException.class);
+        child.addChild(child);
+    }
+
+    @Test
+    public void addParentSelfTest() throws PersonException {
+        exception.expect(PersonException.class);
+        child.addParent(child);
     }
 }

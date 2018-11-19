@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Class with main method where problem solution was implemented
  *
- * @author Stipan Petrovi�
+ * @author Stipan Petrovic
  */
 public class Program {
 
@@ -40,7 +40,7 @@ public class Program {
              */
             String[] splitLine = line.trim().split("\\s");
             if (splitLine.length != 2) {
-                System.err.println(line + ".. --> this line is invalid");
+                System.out.println(line + ".. --> this line is invalid");
                 continue;
             }
 
@@ -51,8 +51,7 @@ public class Program {
             Person parent = new Person(splitLine[1]);
 
             /*
-             * Try to make connection between parent and child object using processPersons() method which throws PersonException
-             * in case of cyclic relationships or child having more than two parents
+             * Try to make connection between parent and child object using processPersons() method
              */
             try {
                 processPersons(allPersons, child, parent);
@@ -62,6 +61,7 @@ public class Program {
 
             lineCounter++;
         }
+
 
         /*
          * Printing descendants tree for each person which has no parents, which makes them root of their family tree
@@ -79,12 +79,20 @@ public class Program {
      * already exist. If they do not, it makes connection between two objects adding one to another's parents list, and another to one's child list. If one
      * or both objects exist it gets them from hash map and updates their lists.
      *
-     * @param allPersons - HashMap of existing Person class objects
-     * @param child      - Person class object representing child
-     * @param parent     - Person class object representing parent
-     * @throws PersonException - If relationship is cyclic, child already has two parents
+     * @param allPersons HashMap of existing Person class objects
+     * @param child      Person class object representing child
+     * @param parent     Person class object representing parent
+     * @throws PersonException If relationship is cyclic, child already has two parents
      */
-    private static void processPersons(HashMap<String, Person> allPersons, Person child, Person parent) throws PersonException {
+    public static void processPersons(HashMap<String, Person> allPersons, Person child, Person parent) throws PersonException {
+        if(allPersons == null)
+            throw new IllegalArgumentException("HashMap<Strin, Person> allPersons is null!");
+        if(child == null)
+            throw new IllegalArgumentException("Person class object child is null!");
+        if(parent == null)
+            throw new IllegalArgumentException("Person class object parent is null!");
+        if(parent.equals(child))
+            throw new IllegalArgumentException("Person class objects child and parent are one the same!");
 
         /*
          * If neither person has come up before in input document we can just make connection between parent and child put them in HashMap
