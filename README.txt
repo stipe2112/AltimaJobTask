@@ -1,6 +1,6 @@
 Running application is simple, default input file is located in src/main/resources and its location is hardcoded in
-static final string in line 17. If you want to change the input file just change the string value to a path of another
-file.
+static final string in line 17 of the Program class where the main method is located. If you want to change the input
+file just change the string value to a path of another file.
 
 For given file expected errors exist in some lines and the output is:
 
