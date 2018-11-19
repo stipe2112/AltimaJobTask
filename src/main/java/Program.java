@@ -11,6 +11,10 @@ import java.util.List;
  * @author Stipan Petrovic
  */
 public class Program {
+    /**
+     * Constant of a input file location
+     */
+    private static final String inputFileLocation = "./src/main/resources/child-parent.txt";
 
     /**
      * Main method which is called upon running the program
@@ -18,7 +22,7 @@ public class Program {
     public static void main(String[] args) {
         List<String> allLines;
         try {
-            allLines = Files.readAllLines(Paths.get("./src/main/resources/child-parent.txt"), StandardCharsets.UTF_8);
+            allLines = Files.readAllLines(Paths.get(inputFileLocation), StandardCharsets.UTF_8);
         } catch (IOException ex) {
             System.err.println("IOException while trying to open the input file..");
             return;
@@ -57,6 +61,8 @@ public class Program {
                 processPersons(allPersons, child, parent);
             } catch (PersonException e) {
                 System.out.println("Error occurred in line[" + (lineCounter) + "]: " + line + " --> " + e.getMessage());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error occurred in line[" + (lineCounter) + "]: " + line + " --> " + e.getMessage());
             }
 
             lineCounter++;
@@ -92,7 +98,7 @@ public class Program {
         if(parent == null)
             throw new IllegalArgumentException("Person class object parent is null!");
         if(parent.equals(child))
-            throw new IllegalArgumentException("Person class objects child and parent are one the same!");
+            throw new IllegalArgumentException("Person class objects child and parent are the same!");
 
         /*
          * If neither person has come up before in input document we can just make connection between parent and child put them in HashMap
