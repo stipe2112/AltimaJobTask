@@ -1,3 +1,9 @@
+IMPORTANT: If when trying to build project "invalid target release" occurs, go to File->Settings->Build, Execution,
+Deployment->Compiler->Java Compiler and set Target bytecode version to 1.8
+Also set 1.8 version in :   File->Project structure->Project->Project language level
+                            File->Project structure->Module->Sources
+                            File->Project structure->Module->Dependencies
+
 Running application is simple, default input file is located in src/main/resources and its location is hardcoded in
 static final string in line 17 of the Program class where the main method is located. If you want to change the input
 file just change the string value to a path of another file.
